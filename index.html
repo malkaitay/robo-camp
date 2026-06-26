@@ -709,25 +709,12 @@ gtag('config', 'G-MY475CC4QV');
             }
         }
 
-        // יצירת קוד HTML נקי לחלוטין ללא רכיבי העריכה הזמניים
+        // יצירת קוד HTML מלא ולא מסונן - הניקוי מתבצע ב-GitHub Action בזמן הדיפלוי
         function generateAndCopyCode() {
-            const docClone = document.documentElement.cloneNode(true);
+            const fullHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
             
-            const cmsPanel = docClone.querySelector('#local-cms-panel');
-            if (cmsPanel) cmsPanel.remove();
-            
-            const copyBtn = docClone.querySelector('#copy-html-btn');
-            if (copyBtn) copyBtn.remove();
-            
-            getEditableElements(docClone).forEach(el => {
-                el.removeAttribute('contenteditable');
-                el.classList.remove('');
-            });
-            
-            const cleanHTML = '<!DOCTYPE html>\n' + docClone.outerHTML;
-            
-            navigator.clipboard.writeText(cleanHTML).then(() => {
-                alert('🚀 קוד ה-HTML הערוך והנקי הועתק ללוח שלך בהצלחה!');
+            navigator.clipboard.writeText(fullHTML).then(() => {
+                alert('🚀 קוד ה-HTML המלא (לא מסונן) הועתק ללוח שלך בהצלחה!');
             }).catch(err => {
                 alert('שגיאה בהעתקת הקוד: ' + err);
             });
